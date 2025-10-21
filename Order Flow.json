@@ -1,0 +1,192 @@
+{
+  "name": "Order Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Rinad order",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Your Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Order",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Pepper"
+                  },
+                  {
+                    "option": "Book"
+                  },
+                  {
+                    "option": "pen"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Price",
+              "fieldType": "number",
+              "placeholder": "The Price",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": true
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "003a3e2e-24f5-46a9-b136-4621ab955a0c",
+      "name": "On form submission",
+      "webhookId": "9016065c-a2e3-46f4-9c3b-591110cfebdb"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1rqsdrWZir6HuBhDgMmYoyxrvWXkdB4EauTg_xOozaK4",
+          "mode": "list",
+          "cachedResultName": "Rinad order",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rqsdrWZir6HuBhDgMmYoyxrvWXkdB4EauTg_xOozaK4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "الورقة1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rqsdrWZir6HuBhDgMmYoyxrvWXkdB4EauTg_xOozaK4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Order": "={{ $json.Order }}",
+            "Price": "={{ $json.Price }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order",
+              "displayName": "Order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Price",
+              "displayName": "Price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        128
+      ],
+      "id": "0ed5cce1-37fd-4241-95aa-c82a6700b5ad",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "v44M5aQVG2Of78p6",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "reenad18gh@gmail.com",
+        "subject": "=New Order From  {{ $json.Name }}",
+        "emailType": "text",
+        "message": "={{ $json.Order }}",
+        "options": {
+          "appendAttribution": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        -128
+      ],
+      "id": "72bcf892-e703-4170-8840-6284c7aeda5b",
+      "name": "Send a message",
+      "webhookId": "8d8d4a71-7f3b-4014-828d-160d1850e974",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "xSErdYFCxOTW6eNW",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "f011be46-af88-49a8-bec1-cd3d5b5aa5a9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f1041bbfd257cd2f186844da376eca22ed92b477fc89a4404473211efa5a5d40"
+  },
+  "id": "mcbZZvauCCeFkK6q",
+  "tags": []
+}
